@@ -45,7 +45,13 @@ function decodeHeader(req) {
 }
 
 
+function isLogged(req) {
+    const decoded = decodeHeader(req);
+}
+
+
 module.exports = {
     sign,
     checkPermissions,
+    isLogged,
 }

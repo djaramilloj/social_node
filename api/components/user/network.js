@@ -50,4 +50,22 @@ router.delete('/:id', function(req, res, next) {
         .catch(next)
 })
 
+
+router.post('/follow/:id', secure('follow'), function(req, res, next) {
+    controller.follow(req.user.id, req.params.id)
+        .then((info) => {
+            response.success(req, res, info, 200);
+        })
+        .catch(next)
+})
+
+
+router.get('/:id/followers', function(req, res, next) {
+    controller.getFollowers(req.params.id)
+        .then((info) => {
+            response.success(req, res, info, 200);
+        })
+        .catch(next)
+})
+
 module.exports = router;

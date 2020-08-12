@@ -11,6 +11,10 @@ module.exports = function checkAuth(action) {
                 auth.checkPermissions(req, owner);
                 next();
                 break;
+            case 'follow':
+                auth.isLogged(req);
+                next();
+                break;
             default:
                 next();
         }

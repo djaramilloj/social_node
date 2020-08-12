@@ -7,7 +7,7 @@ class AuthController {
     constructor(injectedStore) {
         this.store = injectedStore;
         if (!this.store) {
-            this.store = require('../../../store/dummy');
+            this.store = require('../../../store/mysql');
         }
     }
 

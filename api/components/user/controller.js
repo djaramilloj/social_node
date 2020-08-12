@@ -6,7 +6,7 @@ class UserController {
     constructor(injectedStore) {
         this.store = injectedStore;
         if (!this.store) {
-            this.store = require('../../../store/dummy');
+            this.store = require('../../../store/mysql');
         }
     }
 
@@ -33,34 +33,34 @@ class UserController {
             user.id = nanoid();
         }
 
-        if (data.password || data.username) {
+        if (data.password) {
             await auth.upsert({
                 id: user.id,
                 username: data.username,
                 password: data.password,
             })
-        }
+        } 
         return this.store.upsert(TABLE, user);
     }
 
     remove(id) {
         return this.store.remove(TABLE, id);
     }
+
+    follow(from, to) {
+        return this.store.upsert(TABLE+'_follow', {
+            user_from: from,
+            user_to: to,
+        })
+    }
+
+    async getFollowers(user) {
+        const join = {};
+        join[TABLE] = 'user_to';
+        const query = {user_from: user};
+
+        return await this.store.query(TABLE + '_follow', query, join);
+    }
 }
 
 module.exports = UserController;
-
-// module.exports = function(injectedStore) {
-//     let store = injectedStore;
-//     if (!store) {
-//         store = require('../../../store/dummy');
-//     }
-
-//     function list () {
-//         return store.list(TABLE);
-//     }
-
-//     return {
-//         list,
-//     }
-// }

@@ -4,7 +4,7 @@ const db = {
         {id: '2', name: 'pedro'},
         {id: '3', name: 'juan'}
     ]
-};
+}; 
 
 async function list (table) {
     return db[table] || [];
