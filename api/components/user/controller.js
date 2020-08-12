@@ -6,7 +6,7 @@ class UserController {
     constructor(injectedStore) {
         this.store = injectedStore;
         if (!this.store) {
-            this.store = require('../../../store/mysql');
+            this.store = require('../../../store/remote-mysql');
         }
     }
 
