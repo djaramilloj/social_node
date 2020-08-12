@@ -1,5 +1,8 @@
 const TABLE = 'auth';
 const auth = require('../../../auth');
+const bcrypt = require('bcrypt');
+
+
 class AuthController {
     constructor(injectedStore) {
         this.store = injectedStore;
@@ -10,15 +13,19 @@ class AuthController {
 
     async login (username, password){
         const data = await this.store.query(TABLE, {username: username});
-        if (data.password === password) {
-            // generar token
-            return auth.sign(data);
-        } else {
-            throw new Error('Información inválida')
-        }
+        return bcrypt.compare(password, data.password)
+            .then(sonIguales => {
+                if (sonIguales) {
+                    // generar token
+                    return auth.sign(data);
+                } else {
+                    throw new Error('Información inválida')
+                }
+            })
     }    
+
     
-    upsert(data) {
+    async upsert(data) {
         const authData = {
             id: data.id,
         }
@@ -28,7 +35,7 @@ class AuthController {
         }
 
         if (data.password) {
-            authData.password = data.password
+            authData.password = await bcrypt.hash(data.password, 5);
         }
 
         return this.store.upsert(TABLE, authData);
