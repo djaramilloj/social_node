@@ -21,8 +21,8 @@ module.exports = {
         port: process.env.CACHESERVICE_PORT || 3003,
     },
     redis: {
-        host: process.env.REDIS_HOST || 'redis-14661.c238.us-central1-2.gce.cloud.redislabs.com',
-        port: process.env.REDIS_PORT ||14661,
-        password: process.env.REDIS_PASS || 'ziX7EpoE4VW9PUiwo1T82xaAtaD1UgRg'
+        host: process.env.REDIS_HOST, 
+        port: process.env.REDIS_PORT, 
+        password: process.env.REDIS_PASS,
     }
 }
