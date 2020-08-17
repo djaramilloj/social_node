@@ -15,7 +15,7 @@ function createRemoteDB(host, port) {
     }
 
     async function upsert (table, data){
-        const rta = await req('GET', table, '', data);
+        const rta = await req('POST', table, '', data);
         return rta; 
     }
 

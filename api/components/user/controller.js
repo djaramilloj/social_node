@@ -3,15 +3,29 @@ const auth = require('../auth');
 const TABLE = 'user';
 
 class UserController {
-    constructor(injectedStore) {
+    constructor(injectedStore, injectedCache) {
+        this.cache = injectedCache;
         this.store = injectedStore;
         if (!this.store) {
             this.store = require('../../../store/remote-mysql');
         }
+
+        if (!this.cache) {
+            this.cache = require('../../../store/remote-cache');
+        }
     }
 
-    list() {
-        return this.store.list(TABLE);
+    async list() {
+        let users = await this.cache.list(TABLE);
+        if(!users) {
+            console.log('no estaba en cache')
+            users = await this.store.list(TABLE);
+            cache.upsert(TABLE, users);
+        }else {
+            console.log('si esta en cache')
+        }
+
+        return users;
     }
 
     get(id) {

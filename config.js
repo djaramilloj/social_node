@@ -1,4 +1,5 @@
 module.exports = {
+    remoteDB: process.env.REMOTE_DB || false,
     api: {
         port: process.env.API_PORT || 3000
     },
@@ -14,5 +15,14 @@ module.exports = {
     mysqlserv: {
         host: process.env.MYSQLSERV_HOST || 'localhost',
         port: process.env.MYSQL_PORT || 3001,
+    },
+    cacheserv: {
+        host: process.env.CACHESERVICE_HOST || 'localhost',
+        port: process.env.CACHESERVICE_PORT || 3003,
+    },
+    redis: {
+        host: process.env.REDIS_HOST || 'redis-14661.c238.us-central1-2.gce.cloud.redislabs.com',
+        port: process.env.REDIS_PORT ||14661,
+        password: process.env.REDIS_PASS || 'ziX7EpoE4VW9PUiwo1T82xaAtaD1UgRg'
     }
 }
